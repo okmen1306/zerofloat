@@ -1,0 +1,5 @@
+# Python >= 3.12
+torch>=2.3
+numpy
+# only for the long-run data (WikiText-103): python get_wikitext.py
+datasets

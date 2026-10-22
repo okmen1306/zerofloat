@@ -1,0 +1,6 @@
+__pycache__/
+*.pt
+*.pt.s*
+*.json
+wiki.txt
+.venv/
