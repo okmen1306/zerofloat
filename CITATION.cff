@@ -5,7 +5,7 @@ authors:
   - family-names: "Ökmen"
     given-names: "Muhammed"
     orcid: "https://orcid.org/0009-0002-9709-966X"
-license-url: "https://polyformproject.org/licenses/noncommercial/1.0.0/"
+license: Apache-2.0
 preferred-citation:
   type: article
   title: "ZeroFloat: Fully Integer Training of Language Models up to 1B Parameters"

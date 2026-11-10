@@ -106,7 +106,7 @@ Main ZeroFloat options in `hizli_act8.py`:
 
 ## License
 
-Free for personal, research and other non-commercial use under the [PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/). Commercial use requires a paid license: okmen1306@gmail.com. See [LICENSE](LICENSE).
+Code: [Apache License 2.0](LICENSE) (see also [NOTICE](NOTICE)). The paper text is CC BY 4.0. If you use this work, please cite it (see [CITATION.cff](CITATION.cff)).
 
 ## Citation
 
