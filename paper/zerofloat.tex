@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 \title{ZeroFloat: Fully Integer Training of Language Models\\up to 1B Parameters}
 \author{Muhammed \"Okmen\\Ankara Bilim University\\\texttt{okmen1306@gmail.com} \quad ORCID: \href{https://orcid.org/0009-0002-9709-966X}{0009-0002-9709-966X}}
-\date{October 2026 \quad Version 2 \quad (v1 DOI: \href{https://doi.org/10.5281/zenodo.23450386}{10.5281/zenodo.23450386})}
+\date{October 2026 \quad Version 3 \quad (v1 DOI: \href{https://doi.org/10.5281/zenodo.23450386}{10.5281/zenodo.23450386})}
 \begin{document}
 \maketitle
 
@@ -130,7 +130,7 @@ In every 1B run, ZeroFloat leads AdamW at step 5000 (2.29--2.31 vs.\ 2.35 on a s
 \end{itemize}
 
 \section{Related work}
-NITI~\cite{niti} and NITRO-D train CNNs with integer-only arithmetic and SGD. Ghaffari et al.~\cite{ghaffari} use integer forward, backward and SGD for vision models, including ViT fine-tuning, with floating-point softmax. The concurrent work of Shalby et al.~\cite{shalby} stores all persistent tensors as INT8, with integer softmax and normalization and SGD with momentum, on ResNets and ViTs; it lists language models as future work. Jetfire~\cite{jetfire} pretrains transformers with an INT8 data flow but floating-point nonlinearities and optimizer. ECO~\cite{eco} removes master weights in quantized training. Integer fine-tuning of BERT~\cite{bertint} keeps the update in FP32. Adafactor~\cite{adafactor} introduced the factored second moment, and error feedback~\cite{ef} the residual accumulation of compression error, both of which our integer rule uses. 8-bit optimizers~\cite{opt8} quantize optimizer state but keep floating-point weights and arithmetic.
+NITI~\cite{niti} and NITRO-D~\cite{nitrod} train CNNs with integer-only arithmetic and SGD. Ghaffari et al.~\cite{ghaffari} use integer forward, backward and SGD for vision models, including ViT fine-tuning, with floating-point softmax. The concurrent work of Shalby et al.~\cite{shalby} stores all persistent tensors as INT8, with integer softmax and normalization and SGD with momentum, on ResNets and ViTs; it lists language models as future work. Jetfire~\cite{jetfire} pretrains transformers with an INT8 data flow but floating-point nonlinearities and optimizer. ECO~\cite{eco} removes master weights in quantized training. Integer fine-tuning of BERT~\cite{bertint} keeps the update in FP32. Adafactor~\cite{adafactor} introduced the factored second moment, and error feedback~\cite{ef} the residual accumulation of compression error, both of which our integer rule uses. 8-bit optimizers~\cite{opt8} quantize optimizer state but keep floating-point weights and arithmetic.
 
 \section{Conclusion}
 A language model can be trained from scratch with integer arithmetic only, with no floating-point master weights and an adaptive integer optimizer, up to 1B parameters. ZeroFloat is better than AdamW at small and medium sizes and 0.016 bits/char (0.75\%) worse at 1B, with about half the peak training memory. We ruled out the integer arithmetic itself (backpropagation, 8-bit inputs, the int8 weight grid, the accumulator) as the source of the 1B gap. What remains is a difference between the two optimizers' behavior at scale that we have not been able to remove.
@@ -141,18 +141,19 @@ A language model can be trained from scratch with integer arithmetic only, with 
 
 \paragraph{Provenance.} Results and code were timestamped with OpenTimestamps (Bitcoin):\\ \texttt{v2026-10-16-300m} (sha256 b942f9e1\ldots9b81) and\\ \texttt{v2026-10-18-1b-esit} (sha256 e73cffaa\ldots9f53c6).
 
-\paragraph{Changes from version 1.} Version 1 claimed parity with AdamW up to 1B based on a single 1B seed and a 3-piece evaluation (gap $+0.008$). With a 100-piece evaluation and three seeds, the short-run 1B gap is $+0.063$ ($+0.075$ with the softmax correction). Version 2 corrects the title and abstract and adds long runs, the softmax temperature fix, the neighbor pull, the tail brake, and the analysis of the remaining gap.
+\paragraph{Changes from version 1.} Version 1 claimed parity with AdamW up to 1B based on a single 1B seed and a 3-piece evaluation (gap $+0.008$). With a 100-piece evaluation and three seeds, the short-run 1B gap is $+0.063$ ($+0.075$ with the softmax correction). Version 2 corrects the title and abstract and adds long runs, the softmax temperature fix, the neighbor pull, the tail brake, and the analysis of the remaining gap. Version 3 updates the affiliation, the license statement and some reference details; the results are unchanged.
 
 \begin{thebibliography}{12}
 \bibitem{kafes} M. \"Okmen. Lattice-quantized multiplicative weights: how many bits does an online linear learner need? Technical report, Zenodo, 2026. doi:10.5281/zenodo.23568755.
 \bibitem{niti} M. Wang et al. NITI: Training integer neural networks using integer-only arithmetic. arXiv:2009.13108.
+\bibitem{nitrod} A. Pirillo, L. Colombo, M. Roveri. NITRO-D: Native integer-only training of deep convolutional neural networks. arXiv:2407.11698.
 \bibitem{ghaffari} A. Ghaffari et al. Is integer arithmetic enough for deep learning training? NeurIPS 2022. arXiv:2207.08822.
 \bibitem{shalby} H. H. Y. Shalby, F. Pittorino, M. Roveri. Memory-efficient integer-only training of deep neural networks. arXiv:2610.16298, 2026.
 \bibitem{jetfire} H. Xi et al. Jetfire: Efficient and accurate transformer pretraining with INT8 data flow and per-block quantization. arXiv:2403.12422.
-\bibitem{eco} M. Nikdan, A. Zandieh, D. Alistarh, V. Mirrokni. ECO: Quantized training without full-precision master weights. ICML 2026. arXiv:2601.22101.
+\bibitem{eco} M. Nikdan, A. Zandieh, D. Alistarh, V. Mirrokni. ECO: Quantized training without full-precision master weights. arXiv:2601.22101.
 \bibitem{int4train} H. Xi et al. Training transformers with 4-bit integers. NeurIPS 2023. arXiv:2306.11987.
-\bibitem{bertint} Towards fine-tuning pre-trained language models with integer forward and backward propagation. Findings of EACL 2023. arXiv:2209.09815.
-\bibitem{survey} Low-precision training of large language models: methods, challenges, and opportunities. arXiv:2505.01043.
+\bibitem{bertint} M. Tayaranian et al. Towards fine-tuning pre-trained language models with integer forward and backward propagation. arXiv:2209.09815.
+\bibitem{survey} Z. Hao et al. Low-precision training of large language models: methods, challenges, and opportunities. arXiv:2505.01043.
 \bibitem{adafactor} N. Shazeer, M. Stern. Adafactor: Adaptive learning rates with sublinear memory cost. ICML 2018.
 \bibitem{ef} S. P. Karimireddy, Q. Rebjock, S. U. Stich, M. Jaggi. Error feedback fixes SignSGD and other gradient compression schemes. ICML 2019.
 \bibitem{opt8} T. Dettmers, M. Lewis, S. Shleifer, L. Zettlemoyer. 8-bit optimizers via block-wise quantization. ICLR 2022.
